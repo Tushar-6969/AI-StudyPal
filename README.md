@@ -101,7 +101,7 @@ This project is licensed under the MIT License – see the [LICENSE](LICENSE) fi
 ## 📢 Contact
 
 Made with ❤️ by \[Your Name]
-🔗 [LinkedIn]([https://www.linkedin.com/in/tushar-rathor-277427259/])
+🔗 [LinkedIn](https://www.linkedin.com/in/tushar-rathor-277427259/)
 🐙 [GitHub](https://github.com/Tushar-6969/)
 
 ---
