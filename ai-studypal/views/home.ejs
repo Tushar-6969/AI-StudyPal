@@ -9,7 +9,7 @@
 </head>
 
 <body class="text-dark d-flex flex-column min-vh-100">
-  <!-- Navbar -->
+  <!--  navbar starts here   -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container d-flex justify-content-between align-items-center">
       <a class="navbar-brand fw-bold" href="#">AI StudyPal</a>
@@ -21,18 +21,18 @@
     </div>
   </nav>
 
-  <!-- Main Content -->
+  <!--   main content here   -->
   <div class="container py-5">
     <h1 class="text-center form-title mb-5">🧠 Ask Your Study Assistant</h1>
 
     <form action="/" method="POST" enctype="multipart/form-data" class="custom-form">
       <div class="mb-4">
-        <label for="question" class="form-label"><b>💬 Enter your question:</b></label>
+        <label for="question" class="form-label"><b>💬 enter your question:</b></label>
         <input type="text" name="question" class="form-control" placeholder="e.g., Summarize this document..." required>
       </div>
 
       <div class="mb-4">
-        <label for="pdf" class="form-label"><b>📄 Upload a PDF </b>(optional):</label>
+        <label for="pdf" class="form-label"><b>📄 upload a pdf</b> (optional):</label>
         <input type="file" name="pdf" accept="application/pdf" class="form-control">
       </div>
 
@@ -42,8 +42,9 @@
     </form>
 
     <% if (response) { %>
+      <!--   response section will show here   -->
       <div class="mt-5" id="response-section">
-        <h2 class="text-center mb-3">🤖 StudyPal Response:</h2>
+        <h2 class="text-center mb-3">🤖 studypal response:</h2>
         <div class="custom-response">
           <%- response %>
         </div>
@@ -51,20 +52,21 @@
     <% } %>
 
     <% if (error) { %>
+      <!--  error message box here  -->
       <div class="alert alert-danger mt-4 text-center">
         <%= error %>
       </div>
     <% } %>
   </div>
 
-  <!-- Footer -->
+  <!--  footer at bottom always  -->
   <footer class="bg-dark text-white py-3 mt-auto border-top shadow-sm">
     <div class="container text-center">
       <p class="mb-0">© <%= new Date().getFullYear() %> AI StudyPal | Built by Tushar Rathor</p>
     </div>
   </footer>
 
-  <!-- Scroll to Response -->
+  <!--  scrolls to the response if present   -->
   <script>
     window.addEventListener("DOMContentLoaded", () => {
       const response = document.getElementById("response-section");
@@ -80,6 +82,7 @@
     });
   </script>
 
+  <!--  bootstrap js cdn  -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
