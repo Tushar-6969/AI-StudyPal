@@ -1,24 +1,24 @@
 const axios = require("axios");
 const { marked } = require("marked");
 
-const GEMINI_API_KEY = " Replace with actualapi  key"; //
+// ✅ Use env variable instead of hardcoding the API key
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+
 const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
 
 async function askGemini(pdfText, userPrompt) {
   let prompt = "";
 
-if (pdfText.trim() === "") {
-  prompt = `You are a friendly and helpful AI assistant. Respond naturally to the user's message: "${userPrompt}"`;
-} else {
-  prompt = `You are a friendly expert tutor. Based on the following material:\n"""${pdfText}"""\nAnswer this user query conversationally:\n"${userPrompt}"`;
-}
+  if (pdfText.trim() === "") {
+    prompt = `You are a friendly and helpful AI assistant. Respond naturally to the user's message: "${userPrompt}"`;
+  } else {
+    prompt = `You are a friendly expert tutor. Based on the following material:\n"""${pdfText}"""\nAnswer this user query conversationally:\n"${userPrompt}"`;
+  }
 
   const requestBody = {
     contents: [
       {
-        parts: [
-          { text: prompt }
-        ]
+        parts: [{ text: prompt }]
       }
     ]
   };
