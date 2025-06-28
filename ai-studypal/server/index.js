@@ -6,7 +6,7 @@ const fs = require("fs");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const geminiAPI = require("./gemini");
-const Chat = require("../models/chatModel"); // Make sure filename is 'chatModel.js'
+const Chat = require("../models/chatmodel"); // Make sure filename is 'chatModel.js'
 const { htmlToText } = require('html-to-text');
 
 dotenv.config();
