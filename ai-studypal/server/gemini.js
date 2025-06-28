@@ -1,7 +1,7 @@
 const axios = require("axios");
 const { marked } = require("marked");
 
-const GEMINI_API_KEY = "AIzaSyCXToxk8Nfinvfi1rAX_rm8lVHwZ1fhmoo"; // Replace with actual key
+const GEMINI_API_KEY = " Replace with actualapi  key"; //
 const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
 
 async function askGemini(pdfText, userPrompt) {
