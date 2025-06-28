@@ -6,98 +6,93 @@ const fs = require("fs");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const geminiAPI = require("./gemini");
-const Chat = require("../models/chatmodel"); // Make sure filename is 'chatModel.js'
-const { htmlToText } = require('html-to-text');
+const Chat = require("../models/chatmodel");
+const { htmlToText } = require("html-to-text");
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ✅ Mongoose DB connection
-
-// Get the MongoDB URI from Render's environment variables
+// load mongodb uri from enviornment or use local fallback
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/ai-studypal";
 
-// Connect to MongoDB
-mongoose.connect(MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => {
-  console.log("✅ Connected to MongoDB successfully");
-})
-.catch((err) => {
-  console.error("❌ MongoDB connection error:", err);
-});
-// Middleware setup
+// connect to mongodb using mongoose
+mongoose
+  .connect(MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("connected to mongodb successfully");
+  })
+  .catch((err) => {
+    console.error("mongodb connection error:", err);
+  });
+
+// set up view engine and midleware
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "../views"));
 app.use(express.static(path.join(__dirname, "../public")));
 app.use(express.urlencoded({ extended: true }));
 
-// Multer setup for PDF upload
+// configure multer to store uploded pdfs
 const upload = multer({ dest: path.join(__dirname, "../uploads/") });
 
-// GET: Home page
+// render the home page
 app.get("/", (req, res) => {
   res.render("home", { response: null, error: null });
 });
 
-// GET: View previous chats
+// fetch and display previous chats from the databse
 app.get("/previous-chats", async (req, res) => {
   try {
     const chats = await Chat.find({}).sort({ createdAt: -1 });
     res.render("show", { chats });
   } catch (err) {
-    console.error("❌ Error fetching chats:", err);
-    res.status(500).send("Unable to load previous chats.");
+    console.error("error fetching chats:", err);
+    res.status(500).send("unable to load previous chats.");
   }
 });
 
-// POST: Upload PDF + Ask Gemini
-
+// handle form submission: parse pdf and send query to gemini
 app.post("/", upload.single("pdf"), async (req, res) => {
   try {
     const question = req.body.question;
     let pdfText = "";
 
-    // Read PDF if uploaded
+    // if a pdf was uploaded, read and extract its text
     if (req.file) {
       const pdfPath = req.file.path;
       const dataBuffer = fs.readFileSync(pdfPath);
       const pdfData = await pdfParse(dataBuffer);
-      pdfText = pdfData.text.slice(0, 8000);
+      pdfText = pdfData.text.slice(0, 8000); // limit text lenght
     }
 
-    // Get response from Gemini
+    // ask gemini api using the pdf text and user question
     const geminiResponse = await geminiAPI.askGemini(pdfText, question);
 
-    // ✅ Clean response HTML into plain text
+    // convert the html response into plain readable text
     const cleanText = htmlToText(geminiResponse, {
       wordwrap: false,
-      preserveNewlines: true
+      preserveNewlines: true,
     });
 
-    // ✅ Save question + cleaned response
+    // save the original question and ai response in the database
     await Chat.create({
       title: question.slice(0, 100),
-      content: cleanText
+      content: cleanText,
     });
 
-    // Show result
+    // render the response on the home page
     res.render("home", { response: cleanText, error: null });
   } catch (error) {
-    console.error("❌ Error:", error);
-    res.render("home", { response: null, error: "Something went wrong." });
+    console.error("error:", error);
+    res.render("home", { response: null, error: "something went wrong." });
   }
 });
 
-
-
-
-
-// Start server
+// start the express server
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`server running on http://localhost:${PORT}`);
 });
