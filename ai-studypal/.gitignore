@@ -1,0 +1,29 @@
+#
+
+---
+
+## 📂 .gitignore
+
+```
+# Node modules
+node_modules/
+
+# Env files
+.env
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+
+# MongoDB data (if local dump used)
+dump/
+```
