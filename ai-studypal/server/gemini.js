@@ -1,7 +1,7 @@
 const axios = require("axios");
 const { marked } = require("marked");
 
-// ✅ Use env variable instead of hardcoding the API key
+// use env variable instead of hardcoding the api key
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
@@ -9,6 +9,7 @@ const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/
 async function askGemini(pdfText, userPrompt) {
   let prompt = "";
 
+  // check if pdf is empty or not
   if (pdfText.trim() === "") {
     prompt = `You are a friendly and helpful AI assistant. Respond naturally to the user's message: "${userPrompt}"`;
   } else {
@@ -24,13 +25,16 @@ async function askGemini(pdfText, userPrompt) {
   };
 
   try {
+    // send post req to gemini api with the prompt
     const response = await axios.post(GEMINI_API_URL, requestBody);
+
+    // extract the raw text and convert it to html using marked
     const rawText = response.data.candidates[0].content.parts[0].text;
     const html = marked.parse(rawText);
     return html;
   } catch (error) {
-    console.error("Gemini API error:", error.response?.data || error.message);
-    return "<p style='color:red;'>Failed to fetch response from Gemini.</p>";
+    console.error("gemini api error:", error.response?.data || error.message);
+    return "<p style='color:red;'>failed to fetch response from gemini.</p>";
   }
 }
 
