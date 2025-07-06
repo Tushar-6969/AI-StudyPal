@@ -100,10 +100,17 @@ app.get("/previous-chats", async (req, res) => {
 
 app.get("/chat/:id", async (req, res) => {
   try {
-    const chat = await Chat.findById(req.params.id);
+    const { id } = req.params;
+    const chat = await Chat.findById(id);
+
+    if (!chat || !Array.isArray(chat.conversation)) {
+      return res.status(404).send("Chat data not found or invalid.");
+    }
+
     res.render("chatDetail", { chat });
   } catch (err) {
-    res.status(404).send("Chat not found.");
+    console.error("Error loading chat:", err);
+    res.status(500).send("Internal Server Error");
   }
 });
 
