@@ -98,22 +98,15 @@ app.get("/previous-chats", async (req, res) => {
   }
 });
 
+
 app.get("/chat/:id", async (req, res) => {
   try {
-    const { id } = req.params;
-    const chat = await Chat.findById(id);
-
-    if (!chat || !Array.isArray(chat.conversation)) {
-      return res.status(404).send("Chat data not found or invalid.");
-    }
-
+    const chat = await Chat.findById(req.params.id);
     res.render("chatDetail", { chat });
   } catch (err) {
-    console.error("Error loading chat:", err);
-    res.status(500).send("Internal Server Error");
+    res.status(404).send("Chat not found.");
   }
 });
-
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
