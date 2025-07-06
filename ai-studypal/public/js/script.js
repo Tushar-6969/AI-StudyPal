@@ -25,3 +25,10 @@
       });
     }
   });
+
+  window.addEventListener("DOMContentLoaded", () => {
+  const responseSection = document.getElementById("response-section");
+  if (responseSection) {
+    responseSection.scrollIntoView({ behavior: "smooth", block: "end" });
+  }
+});

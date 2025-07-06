@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Previous Chats</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-dark text-light">
+  <div class="container py-5">
+    <h1 class="text-center mb-4">🧾 Previous Chats</h1>
+
+    <% if (chats.length === 0) { %>
+      <p class="text-center">No chats found.</p>
+    <% } else { %>
+      <% chats.forEach(chat => { %>
+        <div class="mb-3">
+          <a href="/chat/<%= chat._id %>" class="btn btn-outline-light w-100 text-start">
+            <strong><%= chat.title || "Untitled Chat" %></strong><br>
+            <small><%= new Date(chat.createdAt).toLocaleString("en-IN") %></small>
+          </a>
+        </div>
+      <% }) %>
+    <% } %>
+
+    <div class="text-center mt-4">
+      <a href="/" class="btn btn-primary">← Back to Home</a>
+    </div>
+  </div>
+</body>
+</html>

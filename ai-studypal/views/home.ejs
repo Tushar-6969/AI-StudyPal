@@ -6,79 +6,95 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/css/styles.css">
-</head>
+  <style>
+    .chat-message {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 15px;
+      border-radius: 10px;
+      background-color: #ffffff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
 
+    .chat-message .user-msg {
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .chat-message .ai-msg {
+      background-color: #f8f9fa;
+      border-left: 4px solid #0d6efd;
+      padding: 10px 15px;
+      border-radius: 5px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
 <body class="text-dark d-flex flex-column min-vh-100">
-  <!--  navbar starts here   -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container d-flex justify-content-between align-items-center">
       <a class="navbar-brand fw-bold" href="#">AI StudyPal</a>
-      
       <div class="d-flex align-items-center">
         <a href="/previous-chats" class="btn btn-outline-light me-3">Previous Chats</a>
+        <a href="/new-chat" class="btn btn-outline-warning me-3">New Chat</a>
         <img src="/images/profile.jpg" alt="Profile" id="profile-pic" class="rounded-circle" width="40" height="40">
-
       </div>
     </div>
   </nav>
 
-  <!--   main content here   -->
   <div class="container py-5">
     <h1 class="text-center form-title mb-5">🧠 Ask Your Study Assistant</h1>
 
     <form action="/" method="POST" enctype="multipart/form-data" class="custom-form">
       <div class="mb-4">
-        <label for="question" class="form-label"><b>💬 enter your question:</b></label>
+        <label for="question" class="form-label"><b>💬 Enter your question:</b></label>
         <input type="text" name="question" class="form-control" placeholder="e.g., Summarize this document..." required>
       </div>
 
       <div class="mb-4">
-        <label for="pdf" class="form-label"><b>📄 upload a pdf</b> (optional):</label>
+        <label for="pdf" class="form-label"><b>📄 Upload a PDF</b> (optional):</label>
         <input type="file" name="pdf" accept="application/pdf" class="form-control">
       </div>
 
       <div class="d-grid">
         <button type="submit" class="btn btn-primary btn-lg">🚀 Ask StudyPal</button>
       </div>
-      <!-- spiner -->
-<div id="loading-spinner" class="text-center my-4" style="display: none;">
-  <div class="spinner-border text-primary" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-  <p class="mt-2">Studypal is thinking...</p>
-</div>
 
+      <div id="loading-spinner" class="text-center my-4" style="display: none;">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2">Studypal is thinking...</p>
+      </div>
     </form>
 
-    <% if (response) { %>
-      <!--   response section will show here   -->
+    <% if (conversation && conversation.length > 0) { %>
       <div class="mt-5" id="response-section">
-        <h2 class="text-center mb-3">🤖 studypal response:</h2>
-        <div class="custom-response">
-          <%- response %>
-        </div>
+        <h2 class="text-center mb-4">💬 Your Conversation:</h2>
+        <% conversation.forEach(pair => { %>
+          <div class="chat-message">
+            <div class="user-msg">🧑 You: <%= pair.prompt %></div>
+            <div class="ai-msg">🤖 StudyPal: <%- pair.response %></div>
+          </div>
+        <% }) %>
       </div>
     <% } %>
 
     <% if (error) { %>
-      <!--  error message box here  -->
       <div class="alert alert-danger mt-4 text-center">
         <%= error %>
       </div>
     <% } %>
   </div>
 
-  <!--  footer at bottom always  -->
   <footer class="bg-dark text-white py-3 mt-auto border-top shadow-sm">
     <div class="container text-center">
       <p class="mb-0">© <%= new Date().getFullYear() %> AI StudyPal | Built by Tushar Rathor</p>
     </div>
   </footer>
 
-
-
-  <!--  bootstrap js cdn  -->
-<script src="./js/script.js"></script>
+  <script src="/js/script.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
