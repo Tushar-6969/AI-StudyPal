@@ -14,6 +14,7 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/ai-studypal";
 
 mongoose.connect(MONGODB_URI, {
@@ -100,18 +101,9 @@ app.get("/previous-chats", async (req, res) => {
 app.get("/chat/:id", async (req, res) => {
   try {
     const chat = await Chat.findById(req.params.id);
-    console.log("🔍 Chat ID:", req.params.id);
-    console.log("📄 Chat Found:", chat);
-
-    if (!chat || !Array.isArray(chat.conversation)) {
-      console.warn("❌ Invalid chat document format.");
-      return res.status(404).send("Chat not found or invalid format.");
-    }
-
-    res.render("chatDetail", { chat });
+    res.render("chatdetail", { chat });
   } catch (err) {
-    console.error("❗ Error rendering chatDetail route:", err);
-    res.status(500).send("Internal Server Error");
+    res.status(404).send("Chat not found.");
   }
 });
 
