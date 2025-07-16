@@ -1,7 +1,6 @@
-
 # AI StudyPal 📚🤖
 
-**AI StudyPal** is an intelligent web application that helps students study more efficiently by allowing them to ask questions, get answers, and manage study content with the help of AI.
+**AI StudyPal** is an intelligent web application that helps students study more efficiently by allowing them to ask questions, upload PDFs or Images, and get AI-powered answers.
 
 Built with:
 
@@ -10,61 +9,71 @@ Built with:
 * MongoDB
 * EJS
 * Bootstrap
+* Gemini API (Google Generative AI)
 
 ---
 
-## 🌟 Features
-
-* 💬 AI-powered chat interface for study assistance
-* 📄 Submit queries and receive meaningful AI responses
-* 🔤️ User-friendly UI using Bootstrap and EJS templates
-* 🔧 Error handling with custom Express middleware
-* 📚 Organized MVC architecture
-
----
-
-## 🚀 Upcoming Features
+## 🌟 Current Features
 
 * 🔐 Authentication system (Sign Up, Login, Logout)
-* 📂 File upload support (PDFs, DOCX, etc.)
-* 📊 AI-based document summarization and Q\&A
-* 🧠 Personalized study tracking and session history
+* 💬 AI-powered chat interface using Gemini API
+* 📄 Upload PDF or 🖼️ Image (via one upload field: accepts both formats)
+* 🧠 Document/Image content extraction using pdf-parse and Tesseract.js
+* 📚 Chat history per user saved in MongoDB
+* ✨ Clean Bootstrap UI + EJS templating
+* ✅ MVC-like folder structure with separate routes, models, and views
 
 ---
 
-## 💠 Installation
+## 🚀 Upcoming / Planned Features
+
+* ⏳ Upload optimization with Cloudinary or similar (optional)
+* ⏳ User-specific chat management dashboard
+* ⏳ Document summarization refinements
+
+---
+
+## 🛠️ Installation
 
 ```bash
-git clone https://github.com/your-username/ai-studypal.git
-cd ai-studypal
+git clone https://github.com/Tushar-6969/AI-StudyPal.git
+cd AI-StudyPal
 npm install
 ```
 
-Create a `.env` file (if needed) and make sure MongoDB is running locally or use MongoDB Atlas.
+Create a `.env` file containing:
 
----
-
-## 📆 Run the Project
-
-```bash
-node app.js
-# or
-nodemon app.js
+```
+GEMINI_API_KEY=your_google_gemini_api_key
+MONGODB_URI=your_mongodb_uri
 ```
 
-Visit `http://localhost:8080`
+Make sure MongoDB is running locally or use MongoDB Atlas.
 
 ---
 
-## 🗂️ Project Structure
+## 🗖️ Run the Project
+
+```bash
+node server/index.js
+# or
+nodemon server/index.js
+```
+
+Visit:
+`http://localhost:3000`
+
+---
+
+## 🗒️ Project Structure
 
 ```
 .
 ├── models/
-│   └── chatmodel.js
+│   ├── chatmodel.js
+│   └── user.js
 ├── public/
 │   ├── css/
-│   │   ├── show.css
 │   │   └── styles.css
 │   ├── images/
 │   │   └── profile.jpg
@@ -73,15 +82,19 @@ Visit `http://localhost:8080`
 ├── server/
 │   ├── gemini.js
 │   └── index.js
-├── uploads/
+├── uploads/ (temporary storage for PDFs/Images)
 ├── views/
-│   └── home.ejs
-├── app.js
+│   ├── home.ejs
+│   ├── login.ejs
+│   ├── signup.ejs
+│   ├── previousChats.ejs
+│   └── chatdetail.ejs
+├── .env (not pushed to GitHub)
+├── .gitignore
 ├── package.json
 ├── package-lock.json
-├── seed.js
 ├── README.md
-└── .gitignore
+└── seed.js (if applicable)
 ```
 
 ---
@@ -92,7 +105,7 @@ Feel free to fork this repo, open issues, or submit pull requests. Collaboration
 
 ---
 
-## 📄 License
+## 📔 License
 
 This project is licensed under the MIT License – see the [LICENSE](LICENSE) file for details.
 
@@ -100,10 +113,6 @@ This project is licensed under the MIT License – see the [LICENSE](LICENSE) fi
 
 ## 📢 Contact
 
-Made with ❤️ by \[Your Name]
+Made with ❤️ by Tushar Rathor
 🔗 [LinkedIn](https://www.linkedin.com/in/tushar-rathor-277427259/)
-🐙 [GitHub](https://github.com/Tushar-6969/)
-
----
-
-##
+🔉 [GitHub](https://github.com/Tushar-6969)
