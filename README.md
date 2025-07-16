@@ -21,7 +21,7 @@ Built with:
 * 🧠 Document/Image content extraction using pdf-parse and Tesseract.js
 * 📚 Chat history per user saved in MongoDB
 * ✨ Clean Bootstrap UI + EJS templating
-* ✅ MVC-like folder structure with separate routes, models, and views
+  
 
 ---
 
@@ -30,7 +30,7 @@ Built with:
 * ⏳ Upload optimization with Cloudinary or similar (optional)
 * ⏳ User-specific chat management dashboard
 * ⏳ Document summarization refinements
-
+* ⏳MVC-like folder structure with separate routes, models, and views
 ---
 
 ## 🛠️ Installation
