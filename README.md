@@ -10,7 +10,7 @@ Built with:
 * EJS
 * Bootstrap
 * Gemini API (Google Generative AI)
-  Live: https://ai-studypal-1.onrender.com/
+* Live: https://ai-studypal-1.onrender.com/
 ---
 
 ## 🌟 Current Features
