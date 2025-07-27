@@ -94,7 +94,7 @@ Visit:
 ├── package.json
 ├── package-lock.json
 ├── README.md
-└── seed.js (if applicable)
+└── seed.js 
 ```
 
 ---
