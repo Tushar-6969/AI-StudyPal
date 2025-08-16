@@ -40,37 +40,35 @@
 project-root/
 │
 ├── controllers/
-│ ├── authController.js # Handles login/signup/logout
-│ ├── chatController.js # Handles chat and uploads
-│ └── homeController.js # Handles home/dashboard routes
+│   ├── authController.js    # Handles login/signup/logout
+│   ├── chatController.js    # Handles chat and uploads
+│   └── homeController.js    # Handles home/dashboard routes
 │
 ├── models/
-│ ├── chatmodel.js # Chat schema & model
-│ └── user.js # User schema & model
+│   ├── chatmodel.js         # Chat schema & model
+│   └── user.js              # User schema & model
 │
 ├── routes/
-│ ├── authRoutes.js # Authentication routes
-│ ├── chatRoutes.js # Chat + upload routes
-│ └── homeRoutes.js # Home/dashboard routes
+│   ├── authRoutes.js        # Authentication routes
+│   ├── chatRoutes.js        # Chat + upload routes
+│   └── homeRoutes.js        # Home/dashboard routes
 │
 ├── views/
-│ ├── home.ejs
-│ ├── login.ejs
-│ ├── signup.ejs
-│ ├── previousChats.ejs
-│ └── chatdetail.ejs
+│   ├── home.ejs
+│   ├── login.ejs
+│   ├── signup.ejs
+│   ├── previousChats.ejs
+│   └── chatdetail.ejs
 │
-├── public/ # Static assets (CSS, JS, images)
+├── public/                  # Static assets (CSS, JS, images)
 │
-├── uploads/ # Temporary storage for uploaded files
+├── uploads/                 # Temporary storage for uploaded files
 │
-├── app.js # Main Express application entry point
-├── gemini.js # Handles AI API requests
-├── .env # API keys & secrets
+├── app.js                   # Main Express application entry point
+├── gemini.js                # Handles AI API requests
+├── .env                     # API keys & secrets
 └── package.json
 
-
----
 
 ## ⚙️ Installation
 
