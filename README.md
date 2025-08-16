@@ -1,123 +1,115 @@
-# AI StudyPal 📚🤖
+# 📚 AI StudyPal
 
-**AI StudyPal** is an intelligent web application that helps students study more efficiently by allowing them to ask questions, upload PDFs or Images, and get **AI-powered answers**.  
-
----
-
-## 🛠️ Tech Stack
-- **Backend**: Node.js, Express.js  
-- **Database**: MongoDB (Mongoose ORM)  
-- **Frontend**: EJS, Bootstrap  
-- **AI Integration**: Gemini API (Google Generative AI)  
-- **File Processing**: pdf-parse, Tesseract.js  
-
-**Live Demo**: [AI StudyPal](https://ai-studypal-1.onrender.com/)
+AI StudyPal is a MERN-based AI learning assistant that allows users to chat with an AI (powered by Gemini API), manage multiple conversations, and revisit previous chats. It follows the **MVC structure** for clean and scalable development.
 
 ---
 
-## 🌟 Features
+## ✨ Features
 
-- 🔐 User Authentication (Sign Up, Login, Logout)  
-- 💬 Conversational AI chat interface powered by **Gemini API**  
-- 📄 Upload **PDF** or 🖼️ **Image** (single upload field, supports both types)  
-- 🧠 Automatic text extraction with **pdf-parse** & **Tesseract.js**  
-- 💾 User-specific chat history stored in MongoDB  
-- ✨ Sleek UI with Bootstrap + EJS Views  
-
----
-
-## 🚀 Upcoming Features
-
-- ☁️ File upload optimization via **Cloudinary** or similar service  
-- 📂 User dashboard for managing past chats & documents  
-- 📑 Better **document summarization**  
-- 📐 Further improvements to MVC separation  
+* 🔑 **Authentication System** – Login / Signup / Logout
+* 💬 **AI Chat Assistant** – Powered by Gemini API
+* 📂 **Previous Chats** – View and reopen older conversations
+* 📝 **Chat Titles** – Each chat session has its own title
+* 📑 **Conversation History** – Stores complete conversation in MongoDB
+* 🖼️ **EJS Views** – Server-side rendering for UI
+* 📤 **File Upload Support** (optional for chat)
+* 🛠️ **MVC Structure** – Clean separation of concerns
 
 ---
 
 ## 🏗️ Project Structure
 
+```
 project-root/
 │
 ├── controllers/
-│   ├── authController.js    # Handles login/signup/logout
-│   ├── chatController.js    # Handles chat and uploads
-│   └── homeController.js    # Handles home/dashboard routes
+│   ├── authController.js      # Handles login/signup/logout
+│   ├── chatController.js      # Handles chat and uploads
+│   └── homeController.js      # Handles home/dashboard routes
 │
 ├── models/
-│   ├── chatmodel.js         # Chat schema & model
-│   └── user.js              # User schema & model
+│   ├── chatmodel.js           # Chat schema & model
+│   └── user.js                # User schema & model
 │
 ├── routes/
-│   ├── authRoutes.js        # Authentication routes
-│   ├── chatRoutes.js        # Chat + upload routes
-│   └── homeRoutes.js        # Home/dashboard routes
+│   ├── authRoutes.js          # Authentication routes
+│   ├── chatRoutes.js          # Chat + upload routes
+│   └── homeRoutes.js          # Home/dashboard routes
 │
 ├── views/
 │   ├── home.ejs
 │   ├── login.ejs
 │   ├── signup.ejs
 │   ├── previousChats.ejs
-│   └── chatdetail.ejs
+│   └── chatDetail.ejs
 │
-├── public/                  # Static assets (CSS, JS, images)
+├── public/                    # Static assets (CSS, JS, images)
 │
-├── uploads/                 # Temporary storage for uploaded files
+├── uploads/                   # Temporary storage for uploaded files
 │
-├── app.js                   # Main Express application entry point
-├── gemini.js                # Handles AI API requests
-├── .env                     # API keys & secrets
+├── app.js                     # Main Express application entry point
+├── gemini.js                  # Handles AI API requests
+├── .env                       # API keys & secrets
 └── package.json
+```
 
+---
 
-## ⚙️ Installation
+## ⚙️ Setup Instructions
 
-Clone the repo and install dependencies:
+### 1️⃣ Clone the repository
 
-git clone https://github.com/Tushar-6969/AI-StudyPal.git
-cd AI-StudyPal
+```bash
+git clone https://github.com/yourusername/ai-studypal.git
+cd ai-studypal
+```
+
+### 2️⃣ Install dependencies
+
+```bash
 npm install
+```
 
+### 3️⃣ Configure environment variables
 
-Create a `.env` file in the root folder:
+Create a `.env` file:
 
-GEMINI_API_KEY=your_google_gemini_api_key
-MONGODB_URI=your_mongodb_uri
-SESSION_SECRET=your_secret_key
+```env
+MONGO_URI=your_mongodb_connection
+SESSION_SECRET=your_session_secret
+GEMINI_API_KEY=your_gemini_api_key
+PORT=3000
+```
 
+### 4️⃣ Start the server
 
-Make sure MongoDB is running locally or use MongoDB Atlas.  
-
----
-
-## ▶️ Run the Project
-
-Start the server:
-
-node app.js
-
-or
-nodemon app.js
-
-
-Visit:  
-👉 `http://localhost:3000`
+```bash
+npm start
+```
 
 ---
 
-## 🤝 Contributing
+## 🚀 Usage
 
-Contributions are welcome!  
-- Fork the repo  
-- Create a new branch  
-- Commit improvements  
-- Open a Pull Request  
+* Open `http://localhost:3000` in your browser
+* Signup or login
+* Start a **new chat** or open **previous chats**
+* Each chat has its own conversation history
+* Upload files (if enabled)
 
 ---
 
-## 📢 Contact
+## 🔮 Upcoming Features
 
-Made with ❤️ by **Tushar Rathor**  
+* ✅ Dark Mode UI
+* ✅ Chat export (PDF/Markdown)
+* ✅ User profile & settings
+* ✅ AI-powered study summarizer
+* ✅ Multi-user support with roles
+* ✅ Realtime chat (WebSockets)
 
-🔗 [LinkedIn](https://www.linkedin.com/in/tushar-rathor-277427259/)  
-🐙 [GitHub](https://github.com/Tushar-6969)  
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License** – feel free to use and modify.
