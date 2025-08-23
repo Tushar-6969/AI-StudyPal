@@ -47,7 +47,7 @@
   <% } %>
 
   <div class="container py-5">
-    <h1 class="text-center form-title mb-5">🧠 Ask Your Study Assistant</h1>
+    <h1 class="text-center form-title mb-5" style="color: white;">🧠 Ask Your Study Assistant</h1>
 
  <form action="/" method="POST" enctype="multipart/form-data" class="custom-form">
   <div class="mb-4">
@@ -78,7 +78,7 @@
 </form>
    <% if (conversation && conversation.length > 0) { %>
       <div class="mt-5" id="response-section">
-        <h2 class="text-center mb-4">💬 Your Conversation:</h2>
+        <h2 class="text-center mb-4" style="color: white;">💬 Your Conversation:</h2>
         <% conversation.forEach(pair => { %>
           <div class="chat-message">
             <div class="user-msg">🧑 You: <%= pair.prompt %></div>

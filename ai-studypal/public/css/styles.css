@@ -5,7 +5,16 @@ html, body {
   display: flex;
   flex-direction: column;
   background: linear-gradient(to right, #f8f9fa, #e9ecef);
-}
+
+
+
+  background-image: url("https://dinglab.jh.edu/wp-content/uploads/2023/11/bigstock-Futuristic-Modern-Hi-tech-Back-394887410_1-1024x576-1.jpg");
+  background-size: cover;    
+  background-repeat: no-repeat; 
+    background-position: center; /* center the image */}
+
+
+
 
 /* Content area grows and pushes footer down */
 main {

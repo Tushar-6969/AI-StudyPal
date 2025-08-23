@@ -10,17 +10,22 @@ exports.uploadPost = async (req, res) => {
     const question = req.body.question;
     let extractedText = "";
     let fileType = "";
+
+    // ✅ PDF upload (always array because of upload.fields)
     if (req.files?.pdf?.[0]) {
-      const filePath = req.files.pdf.path;
+      const filePath = req.files.pdf[0].path;   // FIXED
       const buffer = fs.readFileSync(filePath);
       const pdfData = await pdfParse(buffer);
       extractedText = pdfData.text.slice(0, 8000);
       fileType = "pdf";
     }
+
+    // ✅ Image upload (always array because of upload.fields)
     if (req.files?.image?.[0]) {
-      const filePath = req.files.image.path;
+      const filePath = req.files.image[0].path;   // FIXED
       const result = await Tesseract.recognize(filePath, "eng");
       const imageText = result.data.text.slice(0, 8000);
+
       if (extractedText) {
         extractedText += "\n\n" + imageText;
         fileType = "both";
@@ -29,21 +34,35 @@ exports.uploadPost = async (req, res) => {
         fileType = "image";
       }
     }
-    const geminiResponse = await geminiAPI.askGemini(extractedText, question, fileType);
-    const cleanText = htmlToText(geminiResponse, { wordwrap: false, preserveNewlines: true });
 
+    // Ask Gemini with extracted text + user question
+    const geminiResponse = await geminiAPI.askGemini(
+      extractedText,
+      question,
+      fileType
+    );
+
+    const cleanText = htmlToText(geminiResponse, {
+      wordwrap: false,
+      preserveNewlines: true,
+    });
+
+    // Save chat
     let chat = await Chat.findById(req.session.chatId);
     if (!chat) {
       chat = await Chat.create({ user: req.user._id });
       req.session.chatId = chat._id;
     }
-    chat.title = chat.title === "Untitled Chat" ? question.slice(0, 50) : chat.title;
+
+    chat.title =
+      chat.title === "Untitled Chat" ? question.slice(0, 50) : chat.title;
     chat.user = req.user._id;
     chat.conversation.push({ prompt: question, response: cleanText });
     await chat.save();
 
     res.render("home", { conversation: chat.conversation, error: null });
   } catch (err) {
+    console.error("Upload error:", err); // ✅ log the real error
     req.flash("error", "Something went wrong while processing your request.");
     res.redirect("/");
   }
@@ -57,9 +76,12 @@ exports.newChatGet = async (req, res) => {
 
 exports.previousChatsGet = async (req, res) => {
   try {
-    const chats = await Chat.find({ user: req.user._id }).sort({ createdAt: -1 });
+    const chats = await Chat.find({ user: req.user._id }).sort({
+      createdAt: -1,
+    });
     res.render("previousChats", { chats });
   } catch (err) {
+    console.error("Previous chats error:", err);
     req.flash("error", "Unable to load previous chats.");
     res.redirect("/");
   }
@@ -67,13 +89,17 @@ exports.previousChatsGet = async (req, res) => {
 
 exports.chatDetailGet = async (req, res) => {
   try {
-    const chat = await Chat.findOne({ _id: req.params.id, user: req.user._id });
+    const chat = await Chat.findOne({
+      _id: req.params.id,
+      user: req.user._id,
+    });
     if (!chat) {
       req.flash("error", "Chat not found or unauthorized.");
       return res.redirect("/previous-chats");
     }
     res.render("chatdetail", { chat });
   } catch (err) {
+    console.error("Chat detail error:", err);
     req.flash("error", "Chat not found.");
     res.redirect("/previous-chats");
   }
