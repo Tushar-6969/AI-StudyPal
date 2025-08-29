@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/css/styles.css">
-  
 </head>
 <body class="text-dark d-flex flex-column min-vh-100">
 
@@ -16,24 +15,22 @@
       <div class="d-flex align-items-center">
         <a href="/previous-chats" class="btn btn-outline-light me-3">Previous Chats</a>
         <a href="/new-chat" class="btn btn-outline-warning me-3">New Chat</a>
+        
         <% if (!user) { %>
           <a href="/login" class="btn btn-outline-success me-3">Login</a>
         <% } else { %>
           <a href="/logout" class="btn btn-outline-danger me-3">Logout</a>
+          <div class="dropdown ms-3">
+            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="<%= user.profilePic || '/images/profile.jpg' %>" alt="Profile" class="rounded-circle me-2" width="40" height="40">
+              <span><%= user.email || user.username %></span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end text-small shadow" aria-labelledby="profileDropdown">
+              <li><a class="dropdown-item" href="#">Profile</a></li>
+              <li><a class="dropdown-item" href="#">Settings</a></li>
+            </ul>
+          </div>
         <% } %>
-        <div class="dropdown">
-          <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="/images/profile.jpg" alt="Profile" class="rounded-circle" width="40" height="40">
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end text-small shadow" aria-labelledby="profileDropdown">
-            <li><a class="dropdown-item" href="#" onclick="alert('Profile settings coming soon!')">Profile</a></li>
-            <li><a class="dropdown-item" href="#" onclick="alert('Account settings coming soon!')">Settings</a></li>
-          </ul>
-        </div>
-
-
-
-        
       </div>
     </div>
   </nav>
@@ -53,34 +50,35 @@
   <div class="container py-5">
     <h1 class="text-center form-title mb-5" style="color: white;">🧠 Ask Your Study Assistant</h1>
 
- <form action="/" method="POST" enctype="multipart/form-data" class="custom-form">
-  <div class="mb-4">
-    <label for="question" class="form-label"><b>💬 Enter your question:</b></label>
-    <input type="text" name="question" class="form-control" placeholder="e.g., Summarize this document..." required>
-  </div>
+    <form action="/" method="POST" enctype="multipart/form-data" class="custom-form">
+      <div class="mb-4">
+        <label for="question" class="form-label"><b>💬 Enter your question:</b></label>
+        <input type="text" name="question" class="form-control" placeholder="e.g., Summarize this document..." required>
+      </div>
 
-  <div class="mb-4">
-    <label for="pdf" class="form-label"><b>📄 Upload PDF (optional)</b>:</label>
-    <input type="file" name="pdf" accept="application/pdf" class="form-control">
-  </div>
+      <div class="mb-4">
+        <label for="pdf" class="form-label"><b>📄 Upload PDF (optional)</b>:</label>
+        <input type="file" name="pdf" accept="application/pdf" class="form-control">
+      </div>
 
-  <div class="mb-4">
-    <label for="image" class="form-label"><b>🖼️ Upload Image (optional)</b>:</label>
-    <input type="file" name="image" accept="image/*" class="form-control">
-  </div>
+      <div class="mb-4">
+        <label for="image" class="form-label"><b>🖼️ Upload Image (optional)</b>:</label>
+        <input type="file" name="image" accept="image/*" class="form-control">
+      </div>
 
-  <div class="d-grid">
-    <button type="submit" class="btn btn-primary btn-lg">🚀 Ask StudyPal</button>
-  </div>
+      <div class="d-grid">
+        <button type="submit" class="btn btn-primary btn-lg">🚀 Ask StudyPal</button>
+      </div>
 
-  <div id="loading-spinner" class="text-center my-4" style="display: none;">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-    <p class="mt-2">Studypal is thinking...</p>
-  </div>
-</form>
-   <% if (conversation && conversation.length > 0) { %>
+      <div id="loading-spinner" class="text-center my-4" style="display: none;">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2">Studypal is thinking...</p>
+      </div>
+    </form>
+
+    <% if (conversation && conversation.length > 0) { %>
       <div class="mt-5" id="response-section">
         <h2 class="text-center mb-4" style="color: white;">💬 Your Conversation:</h2>
         <% conversation.forEach(pair => { %>
