@@ -7,22 +7,27 @@ const { htmlToText } = require("html-to-text");
 
 exports.uploadPost = async (req, res) => {
   try {
-    const question = req.body.question;
+    const question = req.body.question?.trim();
+    if (!question) {
+      req.flash("error", "Please enter a question.");
+      return res.redirect("/");
+    }
+
     let extractedText = "";
     let fileType = "";
 
-    // ✅ PDF upload (always array because of upload.fields)
+    // ✅ Handle PDF upload
     if (req.files?.pdf?.[0]) {
-      const filePath = req.files.pdf[0].path;   // FIXED
+      const filePath = req.files.pdf[0].path;
       const buffer = fs.readFileSync(filePath);
       const pdfData = await pdfParse(buffer);
       extractedText = pdfData.text.slice(0, 8000);
       fileType = "pdf";
     }
 
-    // ✅ Image upload (always array because of upload.fields)
+    // ✅ Handle Image upload
     if (req.files?.image?.[0]) {
-      const filePath = req.files.image[0].path;   // FIXED
+      const filePath = req.files.image[0].path;
       const result = await Tesseract.recognize(filePath, "eng");
       const imageText = result.data.text.slice(0, 8000);
 
@@ -35,7 +40,7 @@ exports.uploadPost = async (req, res) => {
       }
     }
 
-    // Ask Gemini with extracted text + user question
+    // ✅ Ask Gemini with extracted text + question
     const geminiResponse = await geminiAPI.askGemini(
       extractedText,
       question,
@@ -47,8 +52,8 @@ exports.uploadPost = async (req, res) => {
       preserveNewlines: true,
     });
 
-    // Save chat
-    let chat = await Chat.findById(req.session.chatId);
+    // ✅ Save chat under the logged-in user
+    let chat = await Chat.findOne({ _id: req.session.chatId, user: req.user._id });
     if (!chat) {
       chat = await Chat.create({ user: req.user._id });
       req.session.chatId = chat._id;
@@ -56,13 +61,12 @@ exports.uploadPost = async (req, res) => {
 
     chat.title =
       chat.title === "Untitled Chat" ? question.slice(0, 50) : chat.title;
-    chat.user = req.user._id;
     chat.conversation.push({ prompt: question, response: cleanText });
     await chat.save();
 
     res.render("home", { conversation: chat.conversation, error: null });
   } catch (err) {
-    console.error("Upload error:", err); // ✅ log the real error
+    console.error("Upload error:", err);
     req.flash("error", "Something went wrong while processing your request.");
     res.redirect("/");
   }
