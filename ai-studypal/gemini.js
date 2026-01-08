@@ -1,50 +1,66 @@
+// gemini.js
 const axios = require("axios");
 const { marked } = require("marked");
-require("dotenv").config();
+require("dotenv").config(); // Load .env
 
-console.log("Loaded GEMINI_API_KEY:", process.env.GEMINI_API_KEY ? " Present" : " Missing");
-
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-if (!GEMINI_API_KEY) {
-  console.error("GEMINI_API_KEY is missing. Check your .env file.");
+// ---------------- CONFIG ----------------
+const BASE_URL = "https://api.groq.com/openai/v1";
+const API_KEY = process.env.GROQ_API_KEY; // Get key from .env
+if (!API_KEY) {
+  console.error("GROQ_API_KEY missing in .env");
+  process.exit(1);
 }
 
-const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+const HEADERS = {
+  Authorization: `Bearer ${API_KEY}`,
+  "Content-Type": "application/json",
+};
 
+// ---------------- HELPERS ----------------
+function safeJSON(res) {
+  try {
+    return res.data;
+  } catch (err) {
+    return { error: { message: `Invalid JSON: ${err.message}` } };
+  }
+}
+
+// ---------------- MAIN FUNCTION ----------------
 async function askGemini(extractedText = "", userPrompt = "", fileType = "") {
   let prompt = "";
 
   if (!extractedText.trim()) {
-    prompt = `You are a friendly and helpful AI assistant. Respond conversationally to this user query:\n"${userPrompt}"`;
+    prompt = `You are a friendly and helpful AI assistant.\nRespond conversationally to the user:\n"${userPrompt}"`;
   } else if (fileType === "pdf") {
-    prompt = `You are a professional tutor. Based on the following PDF material:\n"""${extractedText}"""\nAnswer the user's question conversationally:\n"${userPrompt}"`;
+    prompt = `You are a professional tutor.\nPDF Content:\n"""${extractedText}"""\nUser Question:\n"${userPrompt}"`;
   } else if (fileType === "image") {
-    prompt = `You are a helpful AI that extracts information from images. The user uploaded an image. This is the extracted text:\n"""${extractedText}"""\nNow respond to their question based on this image text:\n"${userPrompt}"`;
+    prompt = `You are a helpful AI assistant.\nExtracted Image Text:\n"""${extractedText}"""\nUser Question:\n"${userPrompt}"`;
   } else {
-    prompt = `You are an AI combining text from both PDF and Image. PDF text:\n"""${extractedText}"""\nAnswer this user query conversationally:\n"${userPrompt}"`;
+    prompt = `Context:\n"""${extractedText}"""\nUser Question:\n"${userPrompt}"`;
   }
 
-  const requestBody = {
-    contents: [
-      {
-        parts: [{ text: prompt }]
-      }
-    ]
+  // ---------------- Groq API request ----------------
+  const payload = {
+    model: "llama-3.3-70b-versatile", // change model if needed
+    messages: [{ role: "user", content: prompt }],
   };
 
-  console.log("Sending request to Gemini API...");
+  console.log("Sending request to Groq API...");
   console.log("Prompt length:", prompt.length);
 
   try {
-    const response = await axios.post(GEMINI_API_URL, requestBody);
-    const rawText = response.data.candidates[0].content.parts[0].text;
-    console.log("Gemini API response received.");
+    const res = await axios.post(`${BASE_URL}/chat/completions`, payload, { headers: HEADERS });
+    const data = safeJSON(res);
 
-    const html = marked.parse(rawText);
+    let text = "No response from AI";
+    if (data.choices && data.choices.length > 0) {
+      text = data.choices[0].message.content;
+    }
+
+    const html = marked.parse(text);
     return html;
   } catch (error) {
-    console.error("Gemini API error caught!");
-
+    console.error("Groq API error caught!");
     if (error.response) {
       console.error("Status Code:", error.response.status);
       console.error("Error Data:", error.response.data);
@@ -52,7 +68,7 @@ async function askGemini(extractedText = "", userPrompt = "", fileType = "") {
       console.error("Error Message:", error.message);
     }
 
-    return "<p style='color:red;'>Failed to fetch response from Gemini.</p>";
+    return "<p style='color:red;'>Failed to fetch response from AI.</p>";
   }
 }
 
