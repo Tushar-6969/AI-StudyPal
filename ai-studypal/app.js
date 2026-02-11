@@ -9,11 +9,13 @@ const mongoose = require("mongoose");
 const path = require("path");
 const LocalStrategy = require("passport-local").Strategy;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const profileRoutes = require("./routes/profile");
+
 
 const User = require("./models/user"); // make sure user model has googleId, name, profilePic fields
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 /* --------------------- MONGODB --------------------- */
 // prefer MONGODB_URI, fallback to MONGO_URI, else localhost
@@ -33,6 +35,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(flash());
+app.use("/uploads", express.static("uploads"));
+
 
 /*  If deployed behind a proxy (like Render), trust proxy for secure cookies */
 if (process.env.NODE_ENV === "production") {
@@ -140,6 +144,7 @@ app.use((req, res, next) => {
 app.use("/", require("./routes/homeRoutes"));
 app.use("/", require("./routes/authRoutes"));
 app.use("/", require("./routes/chatRoutes"));
+app.use("/profile", profileRoutes);
 
 /* --------------------- START --------------------- */
 app.listen(PORT, () => {
