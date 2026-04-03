@@ -1,4 +1,6 @@
 // app.js
+
+// make sure .env file exist
 require("dotenv").config();
 const express = require("express");
 const session = require("express-session");
