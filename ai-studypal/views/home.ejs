@@ -148,18 +148,20 @@
               </div>
             </div>
             <div class="col-12">
-              <div class="row g-2">
+              <div class="row g-2 align-items-center">
                 <div class="col-auto">
                   <label class="btn btn-sm btn-soft-light" style="cursor: pointer; margin: 0;">
                     📄 PDF
-                    <input type="file" name="pdf" accept="application/pdf" style="display: none;">
+                    <input type="file" id="pdfInput" name="pdf" accept="application/pdf" style="display: none;">
                   </label>
+                  <span id="pdfName" class="text-muted ms-2" style="font-size: 0.85rem;"></span>
                 </div>
                 <div class="col-auto">
                   <label class="btn btn-sm btn-soft-light" style="cursor: pointer; margin: 0;">
                     🖼️ Image
-                    <input type="file" name="image" accept="image/*" style="display: none;">
+                    <input type="file" id="imageInput" name="image" accept="image/*" style="display: none;">
                   </label>
+                  <span id="imageName" class="text-muted ms-2" style="font-size: 0.85rem;"></span>
                 </div>
               </div>
             </div>
