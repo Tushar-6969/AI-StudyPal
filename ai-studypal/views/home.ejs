@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -52,110 +52,129 @@
     </div>
   <% } %>
 
-  <main class="container py-5">
-    <section class="page-card hero-card p-5 mb-5">
-      <div class="row align-items-center gy-4 hero-row">
-        <div class="col-lg-7 hero-copy">
-          <span class="badge-soft mb-3">AI-powered study assistant</span>
-          <h1 class="mb-4">Study smarter with AI-crafted answers, explanations, and notes.</h1>
-          <p class="text-muted mb-4">Upload PDFs, images, or ask any question to get instant study support from AI StudyPal. Designed to help learners stay confident, organized, and focused.</p>
-          <div class="d-flex flex-wrap gap-3">
-            <div class="feature-box">
-              <h5>Fast answers</h5>
-              <p>Get clear explanations and summaries in seconds.</p>
-            </div>
-            <div class="feature-box">
-              <h5>Smart uploads</h5>
-              <p>Share PDFs or images and let StudyPal analyze them for you.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-5 hero-visual">
-          <div class="page-card p-4 h-100">
-            <h3 class="section-title">Ready to learn?</h3>
-            <p class="text-muted">Log in or sign up to access your saved chats, profile, and personalized study recommendations.</p>
-            <div class="mt-4">
-              <% if (!user) { %>
-                <a class="btn btn-primary btn-lg w-100 mb-3" href="/signup">Create account</a>
-                <a class="btn btn-soft-light btn-lg w-100" href="/login">Already have an account?</a>
-              <% } else { %>
-                <a class="btn btn-primary btn-lg w-100 mb-3" href="/previous-chats">Continue where you left off</a>
-              <% } %>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="row gy-4">
-      <div class="col-lg-7">
-        <section class="page-card p-4">
-          <h2 class="section-title">Ask StudyPal</h2>
-          <form action="/" method="POST" enctype="multipart/form-data">
-            <div class="mb-4">
-              <label class="form-label">What do you want to learn today?</label>
-              <input type="text" name="question" class="form-control form-control-lg" placeholder="Explain neural networks for beginners..." required>
-            </div>
-            <div class="row g-3 mb-4">
-              <div class="col-md-6">
-                <label class="form-label">Upload PDF</label>
-                <input type="file" name="pdf" accept="application/pdf" class="form-control">
-              </div>
-              <div class="col-md-6">
-                <label class="form-label">Upload image</label>
-                <input type="file" name="image" accept="image/*" class="form-control">
-              </div>
-            </div>
-            <button type="submit" class="btn btn-primary btn-lg w-100">Ask StudyPal</button>
-            <div id="loading-spinner" class="text-center my-4" style="display: none;">
-              <div class="spinner-border text-primary" role="status"></div>
-              <p class="mt-2 text-muted">StudyPal is thinking...</p>
-            </div>
-          </form>
-        </section>
-      </div>
-      <div class="col-lg-5">
-        <section class="page-card p-4">
-          <h2 class="section-title">Why use StudyPal?</h2>
-          <div class="feature-box">
-            <h5>Organized responses</h5>
-            <p>Turn complex topics into easy-to-read answers.</p>
-          </div>
-          <div class="feature-box">
-            <h5>Upload files</h5>
-            <p>Include lecture notes, textbooks, or images for tailored help.</p>
-          </div>
-          <div class="feature-box">
-            <h5>Save your chats</h5>
-            <p>Keep track of your previous conversations and study progress.</p>
-          </div>
-        </section>
-      </div>
-    </div>
-
+  <main class="d-flex flex-column min-vh-100" style="padding-bottom: 420px;">
     <% if (conversation && conversation.length > 0) { %>
-      <section class="mt-5" id="response-section">
-        <h2 class="section-title text-center">Recent conversation</h2>
-        <div class="row gy-4">
-          <% conversation.forEach(pair => { %>
-            <div class="col-12">
-              <article class="chat-card">
-                <div class="message-label">🧑 You</div>
-                <div class="message-body mb-3"><%= pair.prompt %></div>
-                <div class="message-label">🤖 StudyPal</div>
-                <div class="message-body"><%- pair.response %></div>
-              </article>
+      <div class="container py-5" id="response-section">
+        <section>
+          <h2 class="section-title text-center mb-5">Recent conversation</h2>
+          <div class="row gy-4">
+            <% conversation.forEach(pair => { %>
+              <div class="col-12">
+                <article class="chat-card">
+                  <div class="message-label">🧑 You</div>
+                  <div class="message-body mb-3"><%= pair.prompt %></div>
+                  <div class="message-label">🤖 StudyPal</div>
+                  <div class="message-body"><%- pair.response %></div>
+                </article>
+              </div>
+            <% }) %>
+          </div>
+        </section>
+      </div>
+    <% } %>
+
+    <% if (!conversation || conversation.length === 0) { %>
+      <div class="flex-grow-1 d-flex align-items-center">
+        <div class="container py-5 w-100">
+          <section class="page-card hero-card p-5 mb-5">
+            <div class="row align-items-center gy-4 hero-row">
+              <div class="col-lg-7 hero-copy">
+                <span class="badge-soft mb-3">AI-powered study assistant</span>
+                <h1 class="mb-4">Study smarter with AI-crafted answers, explanations, and notes.</h1>
+                <p class="text-muted mb-4">Upload PDFs, images, or ask any question to get instant study support from AI StudyPal. Designed to help learners stay confident, organized, and focused.</p>
+                <div class="d-flex flex-wrap gap-3">
+                  <div class="feature-box">
+                    <h5>Fast answers</h5>
+                    <p>Get clear explanations and summaries in seconds.</p>
+                  </div>
+                  <div class="feature-box">
+                    <h5>Smart uploads</h5>
+                    <p>Share PDFs or images and let StudyPal analyze them for you.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-5 hero-visual">
+                <div class="page-card p-4 h-100">
+                  <h3 class="section-title">Ready to learn?</h3>
+                  <p class="text-muted">Log in or sign up to access your saved chats, profile, and personalized study recommendations.</p>
+                  <div class="mt-4">
+                    <% if (!user) { %>
+                      <a class="btn btn-primary btn-lg w-100 mb-3" href="/signup">Create account</a>
+                      <a class="btn btn-soft-light btn-lg w-100" href="/login">Already have an account?</a>
+                    <% } else { %>
+                      <a class="btn btn-primary btn-lg w-100 mb-3" href="/previous-chats">Continue where you left off</a>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
             </div>
-          <% }) %>
+          </section>
+
+          <div class="row gy-4">
+            <div class="col-lg-5 ms-auto">
+              <section class="page-card p-4">
+                <h2 class="section-title">Why use StudyPal?</h2>
+                <div class="feature-box">
+                  <h5>Organized responses</h5>
+                  <p>Turn complex topics into easy-to-read answers.</p>
+                </div>
+                <div class="feature-box">
+                  <h5>Upload files</h5>
+                  <p>Include lecture notes, textbooks, or images for tailored help.</p>
+                </div>
+                <div class="feature-box">
+                  <h5>Save your chats</h5>
+                  <p>Keep track of your previous conversations and study progress.</p>
+                </div>
+              </section>
+            </div>
+          </div>
         </div>
-      </section>
+      </div>
     <% } %>
   </main>
 
-  <footer class="footer">
-    <div class="container text-center">
-      © <%= new Date().getFullYear() %> AI StudyPal | Built by Tushar Rathor
+  <div class="fixed-bottom border-top" style="background: rgba(8, 15, 31, 0.94); backdrop-filter: blur(16px);">
+    <div class="container py-4">
+      <section class="page-card p-4">
+        <form action="/" method="POST" enctype="multipart/form-data">
+          <div class="row g-3">
+            <div class="col-12">
+              <div class="d-flex gap-2 align-items-end">
+                <div class="flex-grow-1">
+                  <input type="text" name="question" class="form-control form-control-lg" placeholder="Ask StudyPal anything..." required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg">Ask</button>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="row g-2">
+                <div class="col-auto">
+                  <label class="btn btn-sm btn-soft-light" style="cursor: pointer; margin: 0;">
+                    📄 PDF
+                    <input type="file" name="pdf" accept="application/pdf" style="display: none;">
+                  </label>
+                </div>
+                <div class="col-auto">
+                  <label class="btn btn-sm btn-soft-light" style="cursor: pointer; margin: 0;">
+                    🖼️ Image
+                    <input type="file" name="image" accept="image/*" style="display: none;">
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="loading-spinner" class="text-center mt-3" style="display: none;">
+            <div class="spinner-border text-primary spinner-border-sm" role="status"></div>
+            <p class="mt-2 text-muted mb-0">StudyPal is thinking...</p>
+          </div>
+        </form>
+      </section>
     </div>
+  </div>
+
+  <footer class="footer">
+    © <%= new Date().getFullYear() %> AI StudyPal | Built by Tushar Rathor
   </footer>
 
   <script src="/js/script.js"></script>
